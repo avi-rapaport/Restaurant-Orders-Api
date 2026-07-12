@@ -1,36 +1,57 @@
+import { z } from "zod";
+
+const createOrderScheme = z
+  .object({
+    customer: z.string(),
+    table: z.number(),
+  })
+  .strict();
+
+const updateOrderSchema = z
+  .object({
+    customer: z.string().optional(),
+    table: z.number().optional(),
+  })
+  .strict();
+
 export function loggerMiddleware(req, res, next) {
   const time = new Date().toLocaleString();
   console.log(`${req.url} | ${req.method} | ${time}`);
-  return next();
+  next();
 }
 
 export function validationMiddleware(req, res, next) {
   if (req.method === "POST") {
-    const { customer, table } = req.body;
-    if (!customer || typeof customer !== "string") {
-      const error = new Error("Invalid or missing customer field!");
+    try {
+      req.body = createOrderScheme.parse(req.body);
+      next();
+    } catch (err) {
+      const error = new Error("Invalid or missing fields!");
       error.statusCode = 400;
-      return next(error);
+      throw error;
     }
-
-    if (!table || typeof table !== "number") {
-      const error = new Error("Invalid or missing table field!");
+  } else if (req.method === "PUT") {
+    try {
+      req.body = updateOrderSchema.parse(req.body);
+      next();
+    } catch (err) {
+      const error = new Error("Invalid fields!");
       error.statusCode = 400;
-      return next(error);
+      throw error;
     }
   }
+
   next();
 }
 
 export function checkIdMiddleware(req, res, next) {
-  if (["GET", "PUT", "PATCH"].includes(req.method)) {
-    const { id } = req.params;
-    if (!id || isNaN(id)) {
-      const error = new Error("Invalid or missing ID!");
-      error.statusCode = 400;
-      return next(error);
-    }
+  const { id } = req.params;
+  if (!id || isNaN(id)) {
+    const error = new Error("Invalid or missing ID!");
+    error.statusCode = 400;
+    throw error;
   }
+  next();
 }
 
 export function errorHandler(err, req, res, next) {

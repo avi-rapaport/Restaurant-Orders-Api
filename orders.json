@@ -2,8 +2,8 @@
   {
     "id": 1,
     "status": "pending",
-    "customer": "John Doe",
-    "table": 4
+    "customer": "eli",
+    "table": 2
   },
   {
     "id": 2,
@@ -22,12 +22,6 @@
     "status": "completed",
     "customer": "Emily Davis",
     "table": 1
-  },
-  {
-    "id": 5,
-    "status": "cancelled",
-    "customer": "David Wilson",
-    "table": 5
   },
   {
     "id": 6,

@@ -1,5 +1,5 @@
 import express from "express";
-import { router } from "./orders_router.js";
+import { router as ordersRouter } from "./orders_router.js";
 import { loggerMiddleware, errorHandler } from "./middlewares.js";
 
 const app = express();
@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(loggerMiddleware);
 
-app.use("/orders", router);
+app.use("/orders", ordersRouter);
 
 app.use((req, res) => res.status(404).json({ Message: "Route not found!" }));
 app.use(errorHandler);
