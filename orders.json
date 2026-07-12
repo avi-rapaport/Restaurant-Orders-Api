@@ -34,5 +34,17 @@
     "status": "in_progress",
     "customer": "Sarah Miller",
     "table": 3
+  },
+  {
+    "id": 7,
+    "status": "new",
+    "customer": "avi rapaport",
+    "table": 4
+  },
+  {
+    "id": 7,
+    "status": "new",
+    "customer": "eli cohen",
+    "table": 5
   }
 ]
