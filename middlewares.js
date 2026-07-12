@@ -1,7 +1,7 @@
 export function loggerMiddleware(req, res, next) {
-  const time = new Date().toLocaleTimeString;
+  const time = new Date().toLocaleString();
   console.log(`${req.url} | ${req.method} | ${time}`);
-  next();
+  return next();
 }
 
 export function validationMiddleware(err, req, res, next) {

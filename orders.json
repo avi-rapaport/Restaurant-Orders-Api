@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "status": "pending",
+    "customer": "John Doe",
+    "table": 4
+  },
+  {
+    "id": 2,
+    "status": "in_progress",
+    "customer": "Jane Smith",
+    "table": 2
+  },
+  {
+    "id": 3,
+    "status": "served",
+    "customer": "Michael Brown",
+    "table": 7
+  },
+  {
+    "id": 4,
+    "status": "completed",
+    "customer": "Emily Davis",
+    "table": 1
+  },
+  {
+    "id": 5,
+    "status": "cancelled",
+    "customer": "David Wilson",
+    "table": 5
+  },
+  {
+    "id": 6,
+    "status": "in_progress",
+    "customer": "Sarah Miller",
+    "table": 3
+  }
+]
