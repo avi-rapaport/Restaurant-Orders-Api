@@ -16,7 +16,7 @@ export async function getOrders(status, customer, table) {
   if (customer) orders = orders.filter((order) => order.customer === customer);
   if (table) orders = orders.filter((order) => order.table === table);
 
-  return filteredOrders;
+  return orders;
 }
 
 export async function getOrderById(orderId) {
@@ -42,27 +42,26 @@ export async function deleteOrder(orderId) {
 
 export async function changeOrderStatus(orderId, newStatus) {
   const order = await getOrderById(orderId);
-  const currentStatus = order.status;
+  let currentStatus = order.status;
+
+  const error = new Error("Current status not suitable for this change!");
+  error.statusCode = 400;
 
   if (
     currentStatus === "new" &&
     !["preparing", "cancelled"].includes(newStatus)
   ) {
-    const error = new Error("Current status not suitable for this changed");
-    error.statusCode = 400;
     throw error;
   } else if (
     currentStatus === "preparing" &&
     !["ready", "cancelled"].includes(newStatus)
   ) {
-    const error = new Error("Current status not suitable for this changed");
-    error.statusCode = 400;
     throw error;
-  } else if ((currentStatus === "ready") & (newStatus !== "delivered")) {
-    const error = new Error("Current status not suitable for this changed");
-    error.statusCode = 400;
+  } else if (currentStatus === "ready" && newStatus !== "delivered") {
+    throw error;
+  } else if (["delivered", "cancelled"].includes(currentStatus)) {
     throw error;
   }
-  currentStatus = newStatus;
+  order.status = newStatus;
   await saveData("orders.json", orders);
 }
