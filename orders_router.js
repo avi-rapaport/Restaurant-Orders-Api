@@ -34,14 +34,19 @@ router.get("/:id", checkIdMiddleware, async (req, res) => {
   res.json({ Success: true, data: order });
 });
 
-router.put("/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  const updatedData = req.body;
-  await updateOrder(id, updatedData);
-  res.json({ success: true, message: "order updated successfully" });
-});
+router.put(
+  "/:id",
+  checkIdMiddleware,
+  validationMiddleware,
+  async (req, res) => {
+    const id = Number(req.params.id);
+    const updatedData = req.body;
+    await updateOrder(id, updatedData);
+    res.json({ success: true, message: "order updated successfully" });
+  },
+);
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", checkIdMiddleware, async (req, res) => {
   const id = Number(req.params.id);
   await deleteOrder(id);
   res.json({ Message: "Order deleted successfully" });
