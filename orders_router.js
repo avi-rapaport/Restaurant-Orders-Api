@@ -5,6 +5,7 @@ import {
   getOrderById,
   updateOrder,
   deleteOrder,
+  changeOrderStatus,
 } from "./repo.js";
 import { validationMiddleware, checkIdMiddleware } from "./middlewares.js";
 import { success } from "zod";
@@ -50,4 +51,11 @@ router.delete("/:id", checkIdMiddleware, async (req, res) => {
   const id = Number(req.params.id);
   await deleteOrder(id);
   res.json({ Message: "Order deleted successfully" });
+});
+
+router.patch("/:id/status", checkIdMiddleware, async (req, res) => {
+  const id = Number(req.params.id);
+  const status = req.body.status;
+  await changeOrderStatus(id, status);
+  res.json({ Message: `Order status changed successfully to ${status}` });
 });

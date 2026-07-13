@@ -39,3 +39,30 @@ export async function deleteOrder(orderId) {
   orders = orders.filter((order) => order.id !== orderId);
   await saveData("orders.json", orders);
 }
+
+export async function changeOrderStatus(orderId, newStatus) {
+  const order = await getOrderById(orderId);
+  const currentStatus = order.status;
+
+  if (
+    currentStatus === "new" &&
+    !["preparing", "cancelled"].includes(newStatus)
+  ) {
+    const error = new Error("Current status not suitable for this changed");
+    error.statusCode = 400;
+    throw error;
+  } else if (
+    currentStatus === "preparing" &&
+    !["ready", "cancelled"].includes(newStatus)
+  ) {
+    const error = new Error("Current status not suitable for this changed");
+    error.statusCode = 400;
+    throw error;
+  } else if ((currentStatus === "ready") & (newStatus !== "delivered")) {
+    const error = new Error("Current status not suitable for this changed");
+    error.statusCode = 400;
+    throw error;
+  }
+  currentStatus = newStatus;
+  await saveData("orders.json", orders);
+}

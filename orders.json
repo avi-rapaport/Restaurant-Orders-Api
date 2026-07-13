@@ -6,14 +6,8 @@
     "table": 2
   },
   {
-    "id": 2,
-    "status": "in_progress",
-    "customer": "Jane Smith",
-    "table": 2
-  },
-  {
     "id": 3,
-    "status": "served",
+    "status": "ready",
     "customer": "Michael Brown",
     "table": 7
   },
