@@ -24,7 +24,6 @@ export function validationMiddleware(req, res, next) {
   if (req.method === "POST") {
     try {
       req.body = createOrderScheme.parse(req.body);
-      next();
     } catch (err) {
       const error = new Error("Invalid or missing fields!");
       error.statusCode = 400;
@@ -33,7 +32,6 @@ export function validationMiddleware(req, res, next) {
   } else if (req.method === "PUT") {
     try {
       req.body = updateOrderSchema.parse(req.body);
-      next();
     } catch (err) {
       const error = new Error("Invalid fields!");
       error.statusCode = 400;
